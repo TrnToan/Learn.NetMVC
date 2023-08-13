@@ -1,4 +1,6 @@
 using LearndotNetMVC.DataContext;
+using LearndotNetMVC.Helpers;
+using LearndotNetMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddScoped<ImageService>();
 
 var app = builder.Build();
 

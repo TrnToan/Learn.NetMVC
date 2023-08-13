@@ -4,6 +4,8 @@ namespace LearndotNetMVC.Models;
 
 public class Address
 {
+    public Address()
+    {   }
     public Address(string street, string city, string state)
     {
         Street = street;
