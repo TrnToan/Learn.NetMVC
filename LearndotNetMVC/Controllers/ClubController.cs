@@ -26,4 +26,22 @@ public class ClubController : Controller
             .SingleOrDefault(c => c.Id == id);
         return View(club);
     }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Club club)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(club);
+        }
+        _context.Clubs.Add(club);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
 }

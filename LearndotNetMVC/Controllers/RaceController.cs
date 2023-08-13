@@ -28,4 +28,16 @@ public class RaceController : Controller
 
         return View(race);
     }
+
+    public IActionResult Create(Race race)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(race);
+        }
+        _context.Races.Add(race);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
 }
