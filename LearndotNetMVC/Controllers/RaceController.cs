@@ -32,7 +32,7 @@ public class RaceController : Controller
         return View(race);
     }
 
-    public IActionResult Create(RaceViewModel raceVM)
+    public IActionResult Create(CreateRaceViewModel raceVM)
     {
         if (ModelState.IsValid)
         {
@@ -57,5 +57,63 @@ public class RaceController : Controller
         }
 
         return View(raceVM);
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var race = _context.Races.FirstOrDefault(c => c.Id == id);
+        if (race is null)
+        {
+            return View("Error");
+        }
+        var clubVM = new EditRaceViewModel
+        {
+            Title = race.Title,
+            Description = race.Description,
+            AddressId = race.AddressId,
+            Address = race.Address,
+            Url = race.Image,
+            RaceCategory = race.RaceCategory
+        };
+        return View(clubVM);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, EditRaceViewModel editRaceViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError(" ", "Failed to edit");
+            return View("edit", editRaceViewModel);
+        }
+
+        var userRace = _context.Races.FirstOrDefault(c => c.Id == id);
+        if (userRace != null)
+        {
+            try
+            {
+                _service.DeleteImage(userRace.Image);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(" ", "Failed to delete");
+                return View(editRaceViewModel);
+            }
+            var photoResult = _service.AddImage(editRaceViewModel.Image);
+
+            userRace.Title = editRaceViewModel.Title;
+            userRace.Description = editRaceViewModel?.Description;
+            userRace.Image = photoResult.Url.ToString();
+            userRace.Address = editRaceViewModel.Address;
+            userRace.AddressId = editRaceViewModel.AddressId;
+            
+            _context.Races.Update(userRace);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            return View(editRaceViewModel);
+        }
     }
 }

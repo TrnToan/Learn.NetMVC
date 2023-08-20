@@ -1,13 +1,9 @@
 ﻿@using LearndotNetMVC.Models.Enum;
 @using LearndotNetMVC.ViewModels;
-@model CreateClubViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+@model EditRaceViewModel
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId" />
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Title</label>
         <input asp-for="Title" class="form-control" placeholder="Title">
@@ -24,11 +20,11 @@
         <span asp-validation-for="Image" class="text-danger"> </span>
     </div>
     <div class="mb-3">
-        <label asp-for="ClubCategory" class="form-label">ClubCategory</label>
-        <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<EClubCategory>()" class="form-control">
+        <label asp-for="RaceCategory" class="form-label">ClubCategory</label>
+        <select asp-for="RaceCategory" asp-items="@Html.GetEnumSelectList<ERaceCategory>()" class="form-control">
             <option>--Select--</option>
         </select>
-        <span asp-validation-for="ClubCategory" class="text-danger"> </span>
+        <span asp-validation-for="RaceCategory" class="text-danger"> </span>
     </div>
     <div class="mb-3">
         <label asp-for="Address.Street" class="form-label">Street</label>
