@@ -116,4 +116,34 @@ public class RaceController : Controller
             return View(editRaceViewModel);
         }
     }
+
+    public IActionResult Delete(int id)
+    {
+        var race = _context.Races.FirstOrDefault(r => r.Id == id);
+        if (race == null)
+        {
+            return View("Error");
+        }
+        return View(race);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteRace(int id)
+    {
+        var raceDetails = _context.Races.FirstOrDefault(r => r.Id == id);
+
+        if (raceDetails == null)
+        {
+            return View("Error");
+        }
+
+        if (!String.IsNullOrEmpty(raceDetails.Image))
+        {
+            _service.DeleteImage(raceDetails.Image);
+        }
+
+        _context.Races.Remove(raceDetails);
+        _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
 }

@@ -134,4 +134,34 @@ public class ClubController : Controller
             return View(editClubViewModel);
         }
     }
+
+    public IActionResult Delete(int id)
+    {
+        var club = _context.Clubs.FirstOrDefault(c => c.Id == id);
+        if (club is null)
+        {
+            return View("Error");
+        }
+        return View(club);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteClub(int id)
+    {
+        var clubDetails = _context.Clubs.FirstOrDefault(c => c.Id == id);
+
+        if (clubDetails == null)
+        {
+            return View("Error");
+        }
+
+        if (!string.IsNullOrEmpty(clubDetails.Image))
+        {
+            _service.DeleteImage(clubDetails.Image);
+        }
+
+        _context.Clubs.Remove(clubDetails);
+        _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
 }
