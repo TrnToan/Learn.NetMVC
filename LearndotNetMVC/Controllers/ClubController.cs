@@ -33,12 +33,11 @@ public class ClubController : Controller
         return View(club);
     }
 
-    public IActionResult Create()
-    {
-        return View();
-    }
+    //public IActionResult Create()
+    //{
+    //    return View();
+    //}
 
-    [HttpPost]
     public IActionResult Create(CreateClubViewModel clubVM)
     {
         if (ModelState.IsValid)
