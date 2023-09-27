@@ -33,11 +33,12 @@ public class ClubController : Controller
         return View(club);
     }
 
-    //public IActionResult Create()
-    //{
-    //    return View();
-    //}
+    public IActionResult Create()
+    {
+        return View();
+    }
 
+    [HttpPost]
     public IActionResult Create(CreateClubViewModel clubVM)
     {
         if (ModelState.IsValid)
@@ -107,7 +108,7 @@ public class ClubController : Controller
             var photoResult = _service.AddImage(editClubViewModel.Image);
 
             userClub.Title = editClubViewModel.Title;
-            userClub.Description = editClubViewModel?.Description;
+            userClub.Description = editClubViewModel.Description;
             userClub.Image = photoResult.Url.ToString();
             userClub.Address = editClubViewModel.Address;
             userClub.AddressId = editClubViewModel.AddressId;

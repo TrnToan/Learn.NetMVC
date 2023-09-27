@@ -1,17 +1,17 @@
 ﻿@using LearndotNetMVC.ViewModels;
 
-@model LoginViewModel
+@model RegisterViewModel 
 
 @{
-    ViewData["Title"] = "LOGIN";
+    ViewData["Title"] = "Sign up";
 }
 
-<h1>LOGIN</h1>
+<h1>SIGN UP</h1>
 
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Log in to your account</h4>
+            <h4>Create a new account</h4>
         </p>
         @if (TempData["Error"] != null)
         {
@@ -21,12 +21,12 @@
         }
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Login">
+                <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="UserName" class="control-label"></label>
-                        <input asp-for="UserName" class="form-control">
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"></label>
@@ -34,7 +34,12 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-outline-success float right" type="submit" value="Sign in" />
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float right" type="submit" value="Sign up" />
                         <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
                     </div>
                 </form>

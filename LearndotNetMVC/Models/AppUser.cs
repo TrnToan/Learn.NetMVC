@@ -10,7 +10,7 @@ public class AppUser : IdentityUser
     public int? Milage { get; set; }
 
     [ForeignKey("Address")]
-    public int AddressId { get; set; }
+    public int? AddressId { get; set; }
     public Address? Address { get; set; }
     public IList<Club> Clubs { get; set; }
     public IList<Race> Races { get; set; }

@@ -48,4 +48,44 @@ public class AccountController : Controller
         TempData["Error"] = "Wrong credentials. User not found.";
         return View(loginVM);
     }
+
+    public IActionResult Register()
+    {
+        var response = new RegisterViewModel();
+        return View(response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel registerVM)
+    {
+        if (!ModelState.IsValid) return View();
+
+        var user = await _userManager.FindByEmailAsync(registerVM.Email);
+        if (user is not null)
+        {
+            TempData["Error"] = "This email address has already been in use before.";
+            return View(registerVM);
+        }
+
+        var newUser = new AppUser()
+        {
+            Email = registerVM.Email,
+            UserName = registerVM.Email.ToUpper(),
+        };
+
+        var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+        if (newUserResponse.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 }

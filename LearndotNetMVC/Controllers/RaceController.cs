@@ -32,6 +32,12 @@ public class RaceController : Controller
         return View(race);
     }
 
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
     public IActionResult Create(CreateRaceViewModel raceVM)
     {
         if (ModelState.IsValid)
@@ -102,7 +108,7 @@ public class RaceController : Controller
             var photoResult = _service.AddImage(editRaceViewModel.Image);
 
             userRace.Title = editRaceViewModel.Title;
-            userRace.Description = editRaceViewModel?.Description;
+            userRace.Description = editRaceViewModel.Description;
             userRace.Image = photoResult.Url.ToString();
             userRace.Address = editRaceViewModel.Address;
             userRace.AddressId = editRaceViewModel.AddressId;
